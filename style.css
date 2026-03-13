@@ -677,13 +677,11 @@ document.addEventListener('DOMContentLoaded', function() {
             item.classList.toggle('active');
         });
         /* Скрываем поиск на мобильных устройствах (при ширине экрана до 768px) */
+/* Скрываем поиск на мобильных устройствах (при ширине экрана до 768px) */
 @media (max-width: 768px) {
     .search-box {
         display: none;
     }
 }
-    });
-});
-
 
 
