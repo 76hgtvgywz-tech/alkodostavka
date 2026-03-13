@@ -676,6 +676,13 @@ document.addEventListener('DOMContentLoaded', function() {
         question.addEventListener('click', () => {
             item.classList.toggle('active');
         });
+        /* Скрываем поиск на мобильных устройствах (при ширине экрана до 768px) */
+@media (max-width: 768px) {
+    .search-box {
+        display: none;
+    }
+}
     });
 });
 </script>
+
