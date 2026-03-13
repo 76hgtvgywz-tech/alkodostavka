@@ -609,6 +609,7 @@ footer {
         font-size: 32px;
     }
     
+<style>
 /* Минимальные стили для FAQ (можно перенести в style.css) */
 .faq-item {
     margin-bottom: 10px;
@@ -665,9 +666,16 @@ footer {
 .review-item p {
     margin: 0;
 }
+</style>
 
-.seo-text .columns {
-        grid-template-columns: 1fr;
-    }
-
-}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+});
+</script>
