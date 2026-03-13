@@ -114,7 +114,7 @@
                     <h4>Контакты</h4>
                     <ul>
                         <li><i class="fas fa-phone"></i> +7 (999) 786-39-67</li>
-                        <li><i class="fas fa-envelope"></i> info@alkotaxi24.vercel.app</li>
+                        <li><i class="fas fa-envelope"></i> info@alkodostavka.vercel.app</li>
                         <li><i class="fas fa-map-marker-alt"></i> Москва, ул. Тверская, 1</li>
                     </ul>
                 </div>
@@ -133,9 +133,114 @@
         const hits = products ? products.filter(p => p.inStock).sort(() => 0.5 - Math.random()).slice(0, 6) : [];
         document.getElementById('main-products').innerHTML = renderProductGrid(hits);
     </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "name": "АлкоТакси",
+      "url": "https://alkodostavka.vercel.app",
+      "logo": "https://alkodostavka.vercel.app/logo.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+7-999-786-39-67",
+        "contactType": "customer service",
+        "areaServed": "Москва",
+        "availableLanguage": "Russian"
+      },
+      "sameAs": [
+        "https://vk.com/alkodostavka",
+        "https://t.me/alkodostavka"
+      ]
+    },
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://alkodostavka.vercel.app",
+      "name": "АлкоТакси",
+      "description": "Круглосуточная доставка алкоголя в Москве. Более 500 наименований, включая вино, виски, водку, коньяк, шампанское, пиво и элитные напитки.",
+      "url": "https://alkodostavka.vercel.app",
+      "telephone": "+7-999-786-39-67",
+      "email": "info@alkodostavka.vercel.app",
+      "priceRange": "₽₽",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Москва",
+        "streetAddress": "ул. Тверская, 1"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Москва"
+      },
+      "makesOffer": {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Доставка алкоголя",
+          "description": "Круглосуточная доставка алкогольных напитков на дом."
+        }
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Какие категории напитков чаще всего ищут пользователи?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Наиболее популярны разделы: вино, шампанское, водка, виски, коньяк, пиво, ром, текила, джин, ликёры, вермут и премиальный алкоголь. Часто ищут запросы вроде «доставка вина Москва», «доставка пива Москва», «доставка водки Москва», «доставка шампанского Москва»."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "В какие районы Москвы осуществляется доставка?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Мы доставляем алкоголь во все административные округа Москвы (ЦАО, САО, СВАО, ВАО, ЮВАО, ЮАО, ЮЗАО, ЗАО, СЗАО, ЗелАО), а также в крупные районы: Чертаново, Бутово, Марьино, Люблино, Кузьминки, Текстильщики, Жулебино, Выхино, Некрасовка, Солнцево, Новокосино, Строгино, Митино, Химки, Люберцы, Балашиха, Одинцово, Красногорск, Мытищи, Реутов и другие."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как быстро можно получить заказ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Среднее время доставки — от 30 минут. В зависимости от загруженности и удалённости района срок может незначительно увеличиваться, но мы всегда стремимся к минимальным интервалам."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Работаете ли вы круглосуточно?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да, наш сервис работает 24/7, включая ночные часы, выходные и праздничные дни. Вы можете оформить заказ в любое время суток."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+    
 </body>
 
 </html>
+
 
 
 
