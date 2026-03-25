@@ -12,7 +12,7 @@ async function sendTelegramMessage(text, retries = 3) {
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 секунд таймаут
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
     try {
       const response = await fetch(url, {
@@ -24,18 +24,24 @@ async function sendTelegramMessage(text, retries = 3) {
       clearTimeout(timeoutId);
 
       const result = await response.json();
-      if (response.ok && result.ok) {
-        console.log('Telegram message sent successfully');
+      console.log('Telegram API response:', result); // ← смотрим в консоль
+
+      // Проверяем HTTP статус И поле ok от Telegram
+      if (response.ok && result.ok === true) {
+        console.log('✅ Telegram message sent');
         return { success: true };
       } else {
-        console.error(`Attempt ${attempt} failed:`, result);
-        if (attempt === retries) return { success: false, error: result.description || 'Telegram error' };
+        console.error('❌ Telegram error:', result.description || result);
+        if (attempt === retries) {
+          return { success: false, error: result.description || 'Telegram API error' };
+        }
       }
     } catch (error) {
       clearTimeout(timeoutId);
-      console.error(`Attempt ${attempt} error:`, error);
-      if (attempt === retries) return { success: false, error: error.message };
-      // задержка перед следующей попыткой
+      console.error(`Attempt ${attempt} failed:`, error);
+      if (attempt === retries) {
+        return { success: false, error: error.message };
+      }
       await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
     }
   }
