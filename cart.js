@@ -43,14 +43,14 @@ function attachCartListeners() {
 
 function attachOrderFormListener() {
     if (orderForm) {
-        orderForm.addEventListener('submit', (e) => {
+        orderForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            submitCartOrder();
+            await submitCartOrder();
         });
     }
 }
 
-function submitCartOrder() {
+async function submitCartOrder() {
     const name = document.getElementById('order-name').value.trim();
     const phone = document.getElementById('order-phone').value.trim();
     const address = document.getElementById('order-address').value.trim();
@@ -74,19 +74,43 @@ function submitCartOrder() {
 
     const message = `🛒 НОВЫЙ ЗАКАЗ\n\nИмя: ${name}\nТелефон: ${phone}\nАдрес: ${address}\nКомментарий: ${comment || 'нет'}\n\nТовары:\n${itemsList}\nИтого: ${total} ₽`;
 
-    if (typeof sendTelegramMessage === 'function') {
-        sendTelegramMessage(message);
-    } else {
-        console.warn('sendTelegramMessage не определён');
+    // Блокируем кнопку отправки
+    const submitBtn = document.getElementById('submit-order');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка...';
     }
-    alert('Заказ отправлен! Ожидайте звонка.');
 
-    cart = [];
-    saveCart();
-    updateCartUI();
-    orderForm.reset();
-    cartPanel.classList.remove('open');
-    overlay.classList.remove('show');
+    let success = false;
+    if (typeof sendTelegramMessage === 'function') {
+        const result = await sendTelegramMessage(message);
+        success = result.success;
+        if (success) {
+            alert('Заказ отправлен! Ожидайте звонка.');
+            cart = [];
+            saveCart();
+            updateCartUI();
+            orderForm.reset();
+            cartPanel.classList.remove('open');
+            overlay.classList.remove('show');
+        } else {
+            alert('Ошибка отправки заказа. Попробуйте позже или позвоните по телефону.');
+            console.error('Telegram send error:', result.error);
+        }
+    } else {
+        alert('Ошибка: функция отправки не определена');
+        console.error('sendTelegramMessage not found');
+    }
+
+    if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Оформить заказ';
+    }
+
+    // Если не отправилось, корзину не очищаем
+    if (!success) {
+        return;
+    }
 }
 
 function addToCart(product) {
@@ -198,7 +222,7 @@ function handleQuickOrder(e) {
 
     const message = `⚡ БЫСТРЫЙ ЗАКАЗ (${page})\nИмя: ${name}\nТелефон: ${phone}`;
     if (typeof sendTelegramMessage === 'function') {
-        sendTelegramMessage(message);
+        sendTelegramMessage(message).catch(err => console.error(err));
     }
 
     const msgDiv = form.parentElement.querySelector('.order-message');
