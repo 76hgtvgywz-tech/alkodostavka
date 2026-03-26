@@ -1,7 +1,4 @@
-// telegram.js
-const TELEGRAM_TOKEN = '8427344243:AAFiXfheHb9HmRa2K5MwJR4o7fjXzGRIPa4';
-const CHAT_ID = '562345561';
-
+// telegram.js – использует глобальные переменные из config.js
 async function sendTelegramMessage(text, retries = 3) {
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
   const payload = {
@@ -24,9 +21,8 @@ async function sendTelegramMessage(text, retries = 3) {
       clearTimeout(timeoutId);
 
       const result = await response.json();
-      console.log('Telegram API response:', result); // ← смотрим в консоль
+      console.log('Telegram API response:', result);
 
-      // Проверяем HTTP статус И поле ok от Telegram
       if (response.ok && result.ok === true) {
         console.log('✅ Telegram message sent');
         return { success: true };
