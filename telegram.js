@@ -1,34 +1,29 @@
-// telegram.js — использует глобальные TELEGRAM_TOKEN и CHAT_ID из config.js
+// telegram.js
 async function sendTelegramMessage(text, retries = 3) {
-  const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
-  const payload = {
-    chat_id: CHAT_ID,
-    text: text,
-    parse_mode: 'HTML'
-  };
+  const url = '/api/send-telegram';  // относительный путь к API
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 секунд, а не 1
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        signal: controller.signal   // ← исправлено
+        body: JSON.stringify({ message: text }),
+        signal: controller.signal
       });
       clearTimeout(timeoutId);
 
       const result = await response.json();
-      console.log('Telegram API response:', result);
+      console.log('API response:', result);
 
-      if (response.ok && result.ok === true) {
-        console.log('✅ Telegram message sent');
+      if (response.ok && result.success) {
+        console.log('✅ Message sent via API');
         return { success: true };
       } else {
-        console.error('❌ Telegram error:', result.description || result);
-        if (attempt === retries) return { success: false, error: result.description || 'Telegram API error' };
+        console.error('❌ API error:', result.error);
+        if (attempt === retries) return { success: false, error: result.error };
       }
     } catch (error) {
       clearTimeout(timeoutId);
